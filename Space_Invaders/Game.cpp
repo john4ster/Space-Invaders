@@ -121,6 +121,8 @@ void Game::checkCollisions() {
 					//Update the score
 					score += invaders[i][j]->getScoreValue();
 					updateText();
+					//Add an explosion where the bullet hit
+					explosions.push_back(new Explosion(playerBullets[k]->getXPosition(), playerBullets[k]->getYPosition()));
 					//Delete the bullet
 					delete playerBullets[k];
 					playerBullets.erase(playerBullets.begin() + k);
@@ -136,6 +138,9 @@ void Game::checkCollisions() {
 	sf::VertexArray playerHitbox = player->getVertices();
 	for (int i = 0; i < invaderBullets.size(); i++) {
 		if (invaderBullets[i]->getBullet().getGlobalBounds().intersects(playerHitbox.getBounds())) {
+			//Add an explosion where the bullet hit
+			explosions.push_back(new Explosion(invaderBullets[i]->getXPosition(), invaderBullets[i]->getYPosition()));
+			//Delete the bullet and subtract a life from the player
 			delete invaderBullets[i];
 			invaderBullets.erase(invaderBullets.begin() + i);
 			player->subtractLife();
@@ -266,6 +271,16 @@ void Game::updateInvaders() {
 	}
 }
 
+//Update explosions, removing ones that are at the end of their duration
+void Game::updateExplosions() {
+	for (int i = 0; i < explosions.size(); i++) {
+		if (explosions[i]->explosionOver()) {
+			delete explosions[i];
+			explosions.erase(explosions.begin() + i);
+		}
+	}
+}
+
 //Update the game
 void Game::update() {
 	sf::Event event;
@@ -282,6 +297,7 @@ void Game::update() {
 		checkLoseConditions();
 		updateBullets();
 		updateInvaders();
+		updateExplosions();
 	}
 }
 
@@ -320,6 +336,11 @@ void Game::render() {
 		//Render invader bullets
 		for (int i = 0; i < invaderBullets.size(); i++) {
 			invaderBullets[i]->render(*window);
+		}
+
+		//Render explosions
+		for (int i = 0; i < explosions.size(); i++) {
+			explosions[i]->render(*window);
 		}
 	}
 

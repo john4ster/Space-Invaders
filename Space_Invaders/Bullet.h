@@ -14,6 +14,8 @@ class Bullet {
 		~Bullet();
 
 		sf::RectangleShape getBullet();
+		int getXPosition();
+		int getYPosition();
 		void update();
 		void render(sf::RenderTarget& target);
 };

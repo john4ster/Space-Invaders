@@ -17,6 +17,14 @@ sf::RectangleShape Bullet::getBullet() {
 	return bullet;
 }
 
+int Bullet::getXPosition() {
+	return bullet.getPosition().x;
+}
+
+int Bullet::getYPosition() {
+	return bullet.getPosition().y;
+}
+
 void Bullet::update() {
 	//Move the bullet up or down
 	if (direction == "Up") {

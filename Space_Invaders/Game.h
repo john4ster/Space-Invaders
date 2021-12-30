@@ -7,6 +7,7 @@
 #include "Player.h"
 #include "Invader.h"
 #include "Bullet.h"
+#include "Explosion.h"
 
 //The game class handles all game objects such as the player, invaders, and bullets, as well as collisions
 class Game {
@@ -23,10 +24,11 @@ class Game {
 		sf::Text* gameOverText;
 		sf::Text* scoreText;
 
-		//Vectors that hold the invaders and bullets
+		//Vectors that hold the invaders, bullets, and explosions
 		std::vector <std::vector<Invader*>> invaders;
 		std::vector <Bullet*> playerBullets;
 		std::vector <Bullet*> invaderBullets;
+		std::vector <Explosion*> explosions;
 		//Cooldown timer to be used for the player and invader shooting cooldown
 		sf::Clock playerCoolDown;
 		sf::Clock invaderCoolDown;
@@ -40,16 +42,16 @@ class Game {
 		void initPlayer();
 		void initText();
 		void initInvaders();
-		void initShields();
 		//Check collisions and if the player has lost
 		void checkCollisions();
 		void checkLoseConditions();
-		//Update functions to update bullets, player and invader positions, and text
+		//Update functions to update bullets, player and invader positions, text, and explosions
 		void randomizeInvaderBullets();
 		void updateInput();
 		void updateText();
 		void updateBullets();
 		void updateInvaders();
+		void updateExplosions();
 		void update();
 		//Render to the window
 		void render();
